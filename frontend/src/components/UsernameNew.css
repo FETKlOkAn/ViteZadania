@@ -1,0 +1,73 @@
+.create-username-container {
+    max-width: 100vw;
+    background-color: #161616;
+    color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh 2vw;
+}
+
+.create-username-container h2 {
+    opacity: 0.5;
+    margin-bottom: 2vh;
+    font-size: 3.3vw;
+}
+
+.create-username-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 40vw;
+}
+
+.create-username-container label {
+    margin-bottom: 1vh;
+}
+
+.create-username-container .username-input {
+    padding: 1vh 1vw;
+    font-size: 2.5vw;
+    border: 0.1vw solid #ccc;
+    border-radius: 0.5vw;
+    width: 100%;
+}
+
+.create-username-container .create-username-button {
+    margin-top: 1vh;
+    padding: 1vh 2vw;
+    border: none;
+    background-color: transparent;
+    color: #007bff;
+    font-size: 2vw;
+    border-radius: 0.5vw;
+    cursor: pointer;
+}
+
+.create-username-container .create-username-button:hover {
+    color: #0056b3;
+    background-color: transparent;
+}
+
+.create-username-container p {
+    margin-top: 2vh;
+    font-size: 1.5vw;
+}
+
+.inner {
+    background-color: #2e2e2e;
+    padding: 3vw;
+    width: 90%;
+    max-width: 36vw;
+    border-radius: 2vw;
+    box-shadow: 0 0 4vw rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+}
