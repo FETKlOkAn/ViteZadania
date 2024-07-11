@@ -1,10 +1,15 @@
 import Papa from 'papaparse';
-
+import axios from 'axios';
 // Fetch CSV data from a given file name
 const fetchCSV = async (fileName) => {
-    const response = await fetch(fileName);
-    const data = await response.text();
-    return data;
+    try {
+        const response = await axios.get(fileName);
+        const data = response.data;
+        return data;
+    } catch (error) {
+        console.error('Error fetching CSV:', error);
+        throw new Error('Failed to fetch CSV');
+    }
 };
 
 // Load multiple CSV files containing questions into a combined array

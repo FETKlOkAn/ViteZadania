@@ -21,9 +21,9 @@ const UsernameNew = () => {
 
         try {
             // Check if the username already exists
-            const usernameExists = await checkUsernameExists(newUsername);
+            const { exists } = await checkUsernameExists(newUsername);
 
-            if (usernameExists) {
+            if (exists) {
                 setMessage('Username already exists. Please choose another one.');
                 return;
             }

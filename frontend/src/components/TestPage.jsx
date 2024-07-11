@@ -11,8 +11,8 @@ const TestPage = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
     const [optionsAndCorrect, setOptionsAndCorrect] = useState([]);
-    const [positiveScore, setPositiveScore] = useState({});
-    const [negativeScore, setNegativeScore] = useState({});
+    const [positiveScore, setPositiveScore] = useState({ correct: 0 });
+    const [negativeScore, setNegativeScore] = useState({ incorrect: 0 });
     const [trinity, setTrinity] = useState(false);
 
     const url = 'http://localhost:5000/';
@@ -38,7 +38,7 @@ const TestPage = () => {
                 } else {
                     console.error('No questions loaded');
                 }
-                fetchScore();
+                await fetchScore();
             } catch (error) {
                 console.error('Error fetching questions:', error);
             }
@@ -77,6 +77,7 @@ const TestPage = () => {
             await axios.put(`${url}users/${userID}`, requestBody);
         } catch (error) {
             console.error('Error updating score:', error);
+            throw error; // Propagate error for handling
         }
     };
 
@@ -87,28 +88,34 @@ const TestPage = () => {
             const response = await axios.post(`${url}users/score/${userID}`, { correct });
             return response.data;
         } catch (error) {
-            console.error(error);
-            return {};
+            console.error('Error fetching score:', error);
+            throw error; // Propagate error for handling
         }
     };
 
     // Handle the user's selection of an option and update the score accordingly
-    const handleOptionClick = (option) => {
-        setTrinity(true)
+    const handleOptionClick = async (option) => {
+        if (trinity) {
+            return; // Prevent further clicks until next question is loaded
+        }
+        setTrinity(true);
         setSelectedOption(option);
 
+        const correct = (option === allQuestions[currentQuestionIndex].correctAnswer);
 
-        if (option === allQuestions[currentQuestionIndex].correctAnswer) {
-            updateScore(true);
-            fetchScore();
+        try {
+            // Update score on the server
+            await updateScore(correct);
+            // Fetch updated scores
+            await fetchScore();
 
-            setTimeout(() => {
-                nextQuestion();
-            }, 500);
-        } else {
-            updateScore(false);
-
-            fetchScore();
+            if (correct) {
+                setTimeout(() => {
+                    nextQuestion();
+                }, 500);
+            }
+        } catch (error) {
+            console.error('Error handling option click:', error);
         }
     };
 
@@ -134,6 +141,7 @@ const TestPage = () => {
                 return 'option selected-incorrect';
             }
         }
+
         return 'option';
     };
 

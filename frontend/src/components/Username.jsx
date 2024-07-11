@@ -19,9 +19,9 @@ const Username = () => {
     // Check if the username exists in the database and navigate accordingly
     const checkUsername = async () => {
         try {
-            const userID = await checkUsernameExists(username);
+            const { exists, userID } = await checkUsernameExists(username);
 
-            if (userID) {
+            if (exists) {
                 localStorage.setItem('username', username);
                 localStorage.setItem('userID', userID);
                 navigate('/user/test');
